@@ -1,5 +1,5 @@
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
-import { ChatbotContent } from "@/components/chatbot/content";
+import ChatbotContent from "@/components/chatbot/content";
 
 export default function ChatbotPage() {
   return (

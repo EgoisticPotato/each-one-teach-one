@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+// Create a course interface
 interface Course {
   id: number;
   name: string;
@@ -63,15 +64,18 @@ export function GradeTrackerContent() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 text-white relative">
+      {/* Cursor effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 opacity-10 pointer-events-none" id="cursorEffect"></div>
+
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Grade Tracker</h1>
-          <p className="text-gray-500">Monitor your academic performance</p>
+          <h1 className="text-4xl font-bold tracking-wide">Grade Tracker</h1>
+          <p className="text-lg text-gray-200">Monitor your academic performance</p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="hover:bg-blue-600 transition duration-300 ease-in-out">
               <PlusCircle className="mr-2 h-4 w-4" /> Add Course
             </Button>
           </DialogTrigger>
@@ -97,7 +101,7 @@ export function GradeTrackerContent() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Course Name
                   </label>
@@ -106,12 +110,13 @@ export function GradeTrackerContent() {
                     name="name"
                     placeholder="Enter course name"
                     required
+                    className="text-black"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="grade"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Grade
                   </label>
@@ -123,12 +128,13 @@ export function GradeTrackerContent() {
                     max="100"
                     placeholder="Enter grade (0-100)"
                     required
+                    className="text-black"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="credits"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-300"
                   >
                     Credits
                   </label>
@@ -140,6 +146,7 @@ export function GradeTrackerContent() {
                     max="6"
                     placeholder="Enter credits"
                     required
+                    className="text-black"
                   />
                 </div>
               </div>
@@ -151,7 +158,8 @@ export function GradeTrackerContent() {
         </Dialog>
       </div>
 
-      <Card>
+      {/* GPA Section */}
+      <Card className="hover:scale-105 transition-all duration-300 ease-in-out transform">
         <CardHeader>
           <CardTitle>Overall GPA</CardTitle>
           <CardDescription>Based on your current grades</CardDescription>
@@ -161,7 +169,8 @@ export function GradeTrackerContent() {
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Course Grades Section */}
+      <Card className="hover:scale-105 transition-all duration-300 ease-in-out transform">
         <CardHeader>
           <CardTitle>Course Grades</CardTitle>
         </CardHeader>
@@ -203,4 +212,13 @@ export function GradeTrackerContent() {
       </Card>
     </div>
   );
+}
+
+// Add cursor effect handler
+if (typeof window !== "undefined") {
+  const cursorEffect = document.getElementById("cursorEffect");
+  document.addEventListener("mousemove", (e) => {
+    const { clientX: mouseX, clientY: mouseY } = e;
+    cursorEffect!.style.backgroundPosition = `${mouseX}px ${mouseY}px`;
+  });
 }

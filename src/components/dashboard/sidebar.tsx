@@ -2,86 +2,56 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  Bell,
-  Home,
-  Search,
-  Settings,
-  Users,
-  ListTodo,
-  UserPlus,
-  GraduationCap,
-  Bot,
-} from "lucide-react";
-
+import { Bell, Home, Search, Settings, Users, ListTodo, UserPlus, GraduationCap, Bot } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Utility function for conditional classnames
 
 export function DashboardSidebar() {
   const [search, setSearch] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage sidebar visibility
 
   return (
-    <div className="w-[280px] bg-black text-white min-h-screen p-4 flex flex-col">
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Image
-            src="/placeholder.svg?height=40&width=40"
-            alt="Profile"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-          <h2 className="text-xl font-semibold">Welcome, User</h2>
+    <div className={`flex ${isSidebarOpen ? 'w-64' : 'w-16'} h-full bg-gray-800 text-white transition-all duration-300`}>
+      {/* Sidebar */}
+      <div className="flex flex-col justify-between w-full">
+        <div>
+          <div className="flex items-center justify-between p-4">
+            <span className="font-bold text-lg">Welcome, User</span>
+            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-white">
+              {isSidebarOpen ? 'Close' : 'Open'}
+            </button>
+          </div>
+
+          {/* Search Box */}
+          <div className="p-4">
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search"
+              className="bg-gray-700 text-white w-full placeholder:text-gray-400"
+            />
+          </div>
+
+          {/* Navigation */}
+          <nav>
+            <ul className="space-y-4">
+              <NavItem href="/" icon={Home}>Home</NavItem>
+              <NavItem href="/notifications" icon={Bell}>Notifications</NavItem>
+              <NavItem href="/settings" icon={Settings}>Settings</NavItem>
+              <NavItem href="/tasks" icon={ListTodo}>Tasks</NavItem>
+              <NavItem href="/socialize" icon={Users}>Socialize</NavItem>
+              <NavItem href="/grades" icon={GraduationCap}>Grades</NavItem>
+              <NavItem href="/ai-assistant" icon={Bot}>AI Assistant</NavItem>
+            </ul>
+          </nav>
         </div>
 
-        <div className="relative">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-8 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 w-full"
-          />
-        </div>
-
-        <nav className="space-y-2">
-          <NavItem href="/dashboard" icon={Home}>
-            Home
-          </NavItem>
-          <NavItem href="/notifications" icon={Bell}>
-            Notifications
-          </NavItem>
-          <NavItem href="/settings" icon={Settings}>
-            Settings
-          </NavItem>
-          <NavItem href="/task-management" icon={ListTodo}>
-            Tasks
-          </NavItem>
-          <NavItem href="/socialize" icon={UserPlus}>
-            Socialize
-          </NavItem>
-          <NavItem href="/grade-tracker" icon={GraduationCap}>
-            Grades
-          </NavItem>
-          <NavItem href="/chatbot" icon={Bot}>
-            AI Assistant
-          </NavItem>
-        </nav>
-
-        <div className="pt-4">
-          <h3 className="text-lg font-semibold mb-2">Activity</h3>
-          <p className="text-sm text-gray-400">
-            Most recent notifications and updates...
-          </p>
-        </div>
-
-        <div className="pt-4">
-          <h3 className="text-lg font-semibold mb-2">Friends</h3>
-          <p className="text-sm text-gray-400">
-            Your friend list will appear here...
-          </p>
+        {/* Sidebar Footer */}
+        <div>
+          <h3 className="p-4 text-gray-400">Activity</h3>
+          <div className="p-4 text-gray-500">Most recent notifications and updates...</div>
+          <h3 className="p-4 text-gray-400">Friends</h3>
+          <div className="p-4 text-gray-500">Your friend list will appear here...</div>
         </div>
       </div>
     </div>
@@ -98,15 +68,14 @@ function NavItem({
   children: React.ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      className={cn(
-        "flex items-center space-x-2 px-2 py-1.5 rounded-md",
-        "hover:bg-gray-800 transition-colors"
-      )}
-    >
-      <Icon className="h-5 w-5" />
-      <span>{children}</span>
-    </Link>
+    <li>
+      <Link
+        href={href}
+        className="flex items-center p-4 hover:bg-gray-700 rounded-md transition-colors duration-200"
+      >
+        <Icon className="w-6 h-6 mr-3" />
+        {children}
+      </Link>
+    </li>
   );
 }

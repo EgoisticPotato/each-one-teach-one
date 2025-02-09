@@ -110,17 +110,17 @@ export function ResourceSharingContent() {
   );
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gradient-to-b from-red-500 to-black text-white">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Resource Sharing</h1>
-          <p className="text-gray-500">
+          <p className="text-gray-300">
             Share and access educational resources
           </p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="bg-white text-red-500">
               <Upload className="mr-2 h-4 w-4" /> Upload Resource
             </Button>
           </DialogTrigger>
@@ -135,7 +135,7 @@ export function ResourceSharingContent() {
               <div>
                 <label
                   htmlFor="resource-title"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-300"
                 >
                   Title
                 </label>
@@ -144,7 +144,7 @@ export function ResourceSharingContent() {
               <div>
                 <label
                   htmlFor="resource-description"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-300"
                 >
                   Description
                 </label>
@@ -156,7 +156,7 @@ export function ResourceSharingContent() {
               <div>
                 <label
                   htmlFor="resource-type"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-300"
                 >
                   Type
                 </label>
@@ -176,7 +176,7 @@ export function ResourceSharingContent() {
               <div>
                 <label
                   htmlFor="resource-file"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-300"
                 >
                   File
                 </label>
@@ -184,7 +184,9 @@ export function ResourceSharingContent() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Upload</Button>
+              <Button type="submit" className="bg-red-500 text-white">
+                Upload
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -197,11 +199,11 @@ export function ResourceSharingContent() {
             placeholder="Search resources..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8"
+            className="pl-8 text-black"
           />
         </div>
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] text-white border-white">
             <SelectValue placeholder="Filter by type" />
           </SelectTrigger>
           <SelectContent>
@@ -259,7 +261,7 @@ function ResourceCard({
   isOwnUpload?: boolean;
 }) {
   return (
-    <Card>
+    <Card className="bg-gray-800 text-white">
       <CardHeader>
         <CardTitle>{resource.title}</CardTitle>
         <CardDescription>
@@ -267,23 +269,19 @@ function ResourceCard({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-500">{resource.description}</p>
-        <p className="text-sm text-gray-500 mt-2">
+        <p className="text-sm text-gray-400">{resource.description}</p>
+        <p className="text-sm text-gray-400 mt-2">
           Uploaded on {resource.uploadDate}
         </p>
-        <p className="text-sm text-gray-500">{resource.downloads} downloads</p>
+        <p className="text-sm text-gray-400">{resource.downloads} downloads</p>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">
+        <Button variant="outline" className="bg-red-500 text-white">
           <Download className="mr-2 h-4 w-4" /> Download
         </Button>
-        {isOwnUpload ? (
-          <Button variant="outline" className="text-red-500 hover:text-red-700">
+        {isOwnUpload && (
+          <Button variant="outline" className="bg-red-500 text-white">
             <Trash2 className="mr-2 h-4 w-4" /> Delete
-          </Button>
-        ) : (
-          <Button variant="outline">
-            <Share2 className="mr-2 h-4 w-4" /> Share
           </Button>
         )}
       </CardFooter>

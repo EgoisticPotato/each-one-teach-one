@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -71,58 +71,90 @@ export function ChatContent({ chatId }: ChatContentProps) {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="bg-white shadow-sm p-4 flex items-center space-x-4">
-        <Link
-          href="/communications"
-          className="text-gray-600 hover:text-gray-900"
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </Link>
-        <Avatar>
-          <AvatarImage src={chatPartner.avatar} />
-          <AvatarFallback>
-            {chatPartner.name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
-        <h2 className="text-xl font-semibold">{chatPartner.name}</h2>
-      </div>
-      <ScrollArea className="flex-1 p-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex mb-4 ${
-              message.sender === "You" ? "justify-end" : "justify-start"
-            }`}
+    <div className="flex flex-col h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Link
+            href="/communications"
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
           >
-            <div
-              className={`max-w-[70%] ${
-                message.sender === "You"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200"
-              } rounded-lg p-3`}
-            >
-              <p>{message.content}</p>
-              <p className="text-xs mt-1 text-right">{message.timestamp}</p>
+            <ArrowLeft className="h-5 w-5 text-gray-600" />
+          </Link>
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-10 w-10 ring-2 ring-gray-100">
+              <AvatarImage src={chatPartner.avatar} />
+              <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                {chatPartner.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                {chatPartner.name}
+              </h2>
+              <p className="text-xs text-gray-500">Active now</p>
             </div>
           </div>
-        ))}
-      </ScrollArea>
-      <div className="bg-white p-4 flex items-center space-x-2">
-        <Input
-          placeholder="Type your message..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-1"
-        />
-        <Button onClick={sendMessage}>
-          <Send className="h-4 w-4 mr-2" />
-          Send
+        </div>
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <MoreVertical className="h-5 w-5 text-gray-600" />
         </Button>
+      </div>
+
+      {/* Chat Area */}
+      <ScrollArea className="flex-1 p-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="space-y-4 max-w-3xl mx-auto">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${
+                message.sender === "You" ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-[70%] ${
+                  message.sender === "You"
+                    ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
+                    : "bg-white border border-gray-200"
+                } rounded-2xl px-4 py-3 shadow-sm`}
+              >
+                <p className={`text-sm ${
+                  message.sender === "You" ? "text-white" : "text-gray-800"
+                }`}>
+                  {message.content}
+                </p>
+                <p className={`text-xs mt-1 text-right ${
+                  message.sender === "You" ? "text-blue-100" : "text-gray-400"
+                }`}>
+                  {message.timestamp}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+
+      {/* Input Area */}
+      <div className="bg-white border-t p-4">
+        <div className="max-w-3xl mx-auto flex items-center space-x-2">
+          <Input
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            className="flex-1 rounded-full border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <Button
+            onClick={sendMessage}
+            className="rounded-full bg-blue-500 hover:bg-blue-600 transition-colors"
+          >
+            <Send className="h-4 w-4 mr-2" />
+            Send
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Bell,
   Book,
@@ -23,16 +23,34 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export function NotificationsContent() {
   const [selectedTab, setSelectedTab] = useState("all");
 
+  const cursorRef = useRef<HTMLDivElement | null>(null); // Refs for cursor effect
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX - 10}px`;
+        cursorRef.current.style.top = `${e.clientY - 10}px`;
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">Notifications</h1>
-          <p className="text-gray-500">
-            Stay updated with your learning journey
-          </p>
+    <div className="p-6 space-y-6 relative bg-gradient-to-b from-blue-500 to-purple-600 min-h-screen">
+      {/* Light-following cursor effect */}
+      <div
+        ref={cursorRef}
+        className="absolute bg-white rounded-full h-5 w-5 opacity-50 pointer-events-none z-50"
+      ></div>
+
+      <div className="flex justify-between items-center space-x-4">
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold text-white">Notifications</h1>
+          <p className="text-lg text-gray-200">Stay updated with your learning journey</p>
         </div>
-        <Button variant="outline" className="gap-2">
+        <Button className="gap-2 hover:scale-105 bg-white text-blue-600 hover:bg-blue-100">
           <Bell className="h-4 w-4" />
           Mark all as read
         </Button>
@@ -40,9 +58,9 @@ export function NotificationsContent() {
 
       <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="unread">Unread</TabsTrigger>
-          <TabsTrigger value="mentions">Mentions</TabsTrigger>
+          <TabsTrigger value="all" className="text-white">All</TabsTrigger>
+          <TabsTrigger value="unread" className="text-white">Unread</TabsTrigger>
+          <TabsTrigger value="mentions" className="text-white">Mentions</TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="space-y-4">
@@ -144,18 +162,18 @@ function NotificationCard({
             <Icon className="h-4 w-4" />
           </div>
           <div>
-            <CardTitle className="text-base font-semibold">{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
+            <CardTitle className="text-lg font-semibold text-gray-800">{title}</CardTitle>
+            <CardDescription className="text-sm text-gray-600">{description}</CardDescription>
           </div>
         </div>
         <time className="text-sm text-gray-500">{time}</time>
       </CardHeader>
       <CardContent>
         <div className="flex justify-end space-x-2">
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="hover:scale-105">
             Dismiss
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="hover:scale-105">
             View
           </Button>
         </div>
@@ -163,4 +181,3 @@ function NotificationCard({
     </Card>
   );
 }
-``;

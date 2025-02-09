@@ -27,7 +27,7 @@ export function SettingsContent() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gradient-to-b from-gray-100 to-gray-300">
       <div>
         <h1 className="text-3xl font-bold">Settings</h1>
         <p className="text-gray-500">Manage your account preferences</p>
@@ -89,7 +89,7 @@ export function SettingsContent() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button>Save Changes</Button>
+              <Button className="w-full bg-blue-500 text-white">Save Changes</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -132,7 +132,9 @@ export function SettingsContent() {
                 </div>
                 <Switch id="marketing-emails" />
               </div>
-              <Button>Save Preferences</Button>
+              <Button className="w-full bg-blue-500 text-white">
+                Save Preferences
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -177,7 +179,9 @@ export function SettingsContent() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button>Update Privacy Settings</Button>
+              <Button className="w-full bg-blue-500 text-white">
+                Update Privacy Settings
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
